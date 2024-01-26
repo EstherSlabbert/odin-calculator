@@ -6,7 +6,7 @@ Calculator logic: `12 + 7 - 5 * 3 =` should yield `42`.
 
 Extra credit included:
 
-- Decimal point for floating numebrs
+- Decimal point for floating numbers
 - Styling
 
 Not included:
