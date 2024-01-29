@@ -15,6 +15,7 @@ function updateDisplay() {
 
 // Function to handle number button clicks
 function inputDigit(digit) {
+    // If we're still waiting for the second operand, add it to the current input
     if (waitingForSecondOperand) {
     currentInput = digit;
     waitingForSecondOperand = false;
@@ -52,7 +53,7 @@ function handleOperator(nextOperator) {
 // Function to perform the calculation
 function performCalculation() {
     const inputValue = parseFloat(currentInput);
-    if (isNaN(inputValue)) return;
+    if (isNaN(inputValue)) return 0;
 
     switch (operator) {
     case '+':
@@ -76,13 +77,26 @@ function performCalculation() {
 function handleEquals() {
     if (operator && !waitingForSecondOperand) {
     const result = performCalculation();
-    currentInput = String(result);
-    updateDisplay();
-    firstOperand = result;
-    operator = null;
-    waitingForSecondOperand = true;
+    if (result !== null && result !== undefined) {
+        // Check for an error message
+        if (typeof result === 'string') {
+          display.textContent = result;
+          // reset defaults for continued calculations
+          currentInput = '0';
+          firstOperand = null;
+          operator = null;
+          waitingForSecondOperand = true;
+        } else {
+          currentInput = String(result);
+          updateDisplay();
+          firstOperand = result;
+          operator = null;
+          waitingForSecondOperand = true;
+        }
     }
 }
+}
+
 
 // Function to handle clear button click
 function clearCalculator() {
@@ -123,7 +137,12 @@ document.querySelectorAll('.button').forEach(button => {
         handleOperator(buttonText);
         break;
         default:
-        inputDigit(buttonText);
+            // max input display length of 30
+            if (currentInput.length < 31) {
+            inputDigit(buttonText);
+            } else {
+                return;
+            }
         break;
     }
     });
