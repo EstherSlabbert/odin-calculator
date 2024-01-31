@@ -1,4 +1,4 @@
-# Odin: Calculator Project
+# The Odin Project: Calculator Project
 
 The Odin Project: Calculator project specifications laid out [here](https://www.theodinproject.com/lessons/foundations-calculator).
 
